@@ -25,6 +25,9 @@ class Circle {
     this.secondaryColor = secondaryColor;
 
     this.rotation = 0;
+
+    this.ajout = 0;
+    this.isIn = false;
   }
 
   changeColor() {
@@ -41,16 +44,27 @@ class Circle {
     let d = this.dist(mouseX, mouseY, this.x, this.y);
     // on compare cette distance au rayon
     if (d < this.rayon) {
+      console.log("true");
       return true;
     } else {
+      console.log("false");
       return false;
     }
   }
 
+  dist(x1, y1, x2, y2) {
+    // calcule la distance entre deux points
+    // pythagore power
+    let d = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+    return d;
+  }
+
+
   rotate() {
-    const easing = Easing.elasticOut(this.uniteDeTemps1);
-    this.uniteDeTemps += 0.01;
-    this.rotation += easing;
+    console.log("rotate");
+    const easing = Easing.circInOut(this.uniteDeTemps);
+    this.uniteDeTemps += 0.001;
+    this.rotation += this.ajout * easing;
   }
 
   draw() {
@@ -95,5 +109,25 @@ class Circle {
     this.context.closePath();
 
     this.context.restore();
+
+    if(this.isIn == false)
+    {
+      if(this.ajout <= 0)
+      {
+        this.ajout = 0;
+        return;
+      }
+      this.ajout -= 0.001;
+    }
+    else
+    {
+      if(this.ajout >= 0.1)
+      {
+        this.ajout = 0.1;
+        return;
+      }
+      this.ajout += 0.001;
+    }
+    this.rotate();
   }
 }
