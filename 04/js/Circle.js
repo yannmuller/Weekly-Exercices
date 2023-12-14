@@ -28,6 +28,7 @@ class Circle {
 
     this.ajout = 0;
     this.isIn = false;
+    this.isOver = false;
   }
 
   changeColor() {
@@ -36,7 +37,7 @@ class Circle {
       Math.random() * 255
     })`;
     //on change la taille du rayon
-    this.rayon = Math.random() * 100;
+    // this.rayon = Math.random() * 100;
   }
 
   isInMe(mouseX, mouseY) {
@@ -59,12 +60,13 @@ class Circle {
     return d;
   }
 
-
   rotate() {
     console.log("rotate");
-    const easing = Easing.circInOut(this.uniteDeTemps);
-    this.uniteDeTemps += 0.001;
-    this.rotation += this.ajout * easing;
+    // const easing = Easing.circInOut(this.uniteDeTemps);
+    // this.uniteDeTemps += 0.001;
+    // this.rotation += this.ajout * easing;
+
+    this.rotation += 0.01;
   }
 
   draw() {
@@ -78,18 +80,18 @@ class Circle {
     this.context.fillStyle = this.secondaryColor;
 
     for (let i = 0; i < 8; i++) {
-        this.context.rotate(Math.PI / 4);
-        this.context.beginPath();
-        this.context.roundRect(-50, -30, 100, 200, 100);
-        this.context.fill();
-        this.context.closePath();
+      this.context.rotate(Math.PI / 4);
+      this.context.beginPath();
+      this.context.roundRect(-50, -30, 100, 200, 100);
+      this.context.fill();
+      this.context.closePath();
     }
 
     this.context.fillStyle = this.primaryColor;
     this.context.beginPath();
     // this.context.roundRect(-60, -80, 50, 100, 50);
     // this.context.roundRect(20, -80, 50, 100, 50);
-    this.context.arc(0, 0, 90, 0, Math.PI * 2);
+    this.context.arc(0, 0, this.rayon, 0, Math.PI * 2);
     this.context.fill();
     this.context.closePath();
 
@@ -110,24 +112,19 @@ class Circle {
 
     this.context.restore();
 
-    if(this.isIn == false)
-    {
-      if(this.ajout <= 0)
-      {
-        this.ajout = 0;
-        return;
-      }
-      this.ajout -= 0.001;
-    }
-    else
-    {
-      if(this.ajout >= 0.1)
-      {
-        this.ajout = 0.1;
-        return;
-      }
-      this.ajout += 0.001;
-    }
-    this.rotate();
+    // if (this.isIn == false) {
+    //   if (this.ajout <= 0) {
+    //     this.ajout = 0;
+    //     return;
+    //   }
+    //   this.ajout -= 0.001;
+    // } else {
+    //   if (this.ajout >= 0.1) {
+    //     this.ajout = 0.1;
+    //     return;
+    //   }
+    //   this.ajout += 0.001;
+    // }
+    if (this.isOver == true) this.rotate();
   }
 }
